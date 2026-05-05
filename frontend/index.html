@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melo Stream - Premium Music Experience</title>
+    <link rel="stylesheet" href="css/styles.css?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="aura-overlay" id="auraOverlay"></div>
+    <div class="app-container">
+        <!-- Top Navigation Header -->
+        <nav class="top-navbar glass-panel">
+            <div class="logo"><i class="fa-solid fa-compact-disc"></i> Melo</div>
+            <ul class="nav-links">
+                <li><a href="#" class="active" id="nav-home"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="#" id="nav-explore"><i class="fa-solid fa-compass"></i> Explore</a></li>
+                <li><a href="#" id="nav-library"><i class="fa-solid fa-heart"></i> Favorites</a></li>
+                <li><a href="#" id="nav-map"><i class="fa-solid fa-map-location-dot"></i> Map</a></li>
+            </ul>
+            <div class="top-controls">
+                <div class="search-bar">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search for songs...">
+                </div>
+                <select class="theme-switcher" id="themeSwitcher">
+                    <option value="dark">Dark Theme</option>
+                    <option value="light">Light Theme</option>
+                    <option value="neon">Neon Theme</option>
+                </select>
+                <select class="smart-timer" id="smartTimer">
+                    <option value="0">Timer: Off</option>
+                    <option value="5">5 Min</option>
+                    <option value="10">10 Min</option>
+                    <option value="30">30 Min</option>
+                </select>
+                <button id="focusModeBtn" class="top-btn" title="Focus Mode"><i class="fa-solid fa-brain"></i></button>
+                <button id="sleepModeBtn" class="top-btn" title="Sleepscape"><i class="fa-solid fa-moon"></i></button>
+                <button id="partyRoomBtn" class="top-btn" title="Party Room"><i class="fa-solid fa-users"></i></button>
+                <a href="#" id="logout-btn" class="logout-icon" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home View -->
+            <div id="home-view" class="view-section active">
+                <div class="hero-section">
+                    <h1>Discover the extraordinary.</h1>
+                    <div class="mood-container" id="moodContainer">
+                        <div class="mood-chip active" data-mood="all">All Moods</div>
+                        <div class="mood-chip" data-mood="chill">Chill</div>
+                        <div class="mood-chip" data-mood="workout">Workout</div>
+                        <div class="mood-chip" data-mood="party">Party</div>
+                        <div class="mood-chip" data-mood="happy">Happy</div>
+                        <div class="mood-chip" data-mood="sad">Sad</div>
+                    </div>
+                </div>
+
+                <!-- Smart Mix Maker -->
+                <div class="smart-mix-section glass-panel">
+                    <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Smart Mix Maker</h3>
+                    <p>Select multiple moods to generate a custom playlist</p>
+                    <div class="mix-options" id="smartMixOptions">
+                        <label><input type="checkbox" value="chill"> Chill</label>
+                        <label><input type="checkbox" value="workout"> Workout</label>
+                        <label><input type="checkbox" value="party"> Party</label>
+                        <label><input type="checkbox" value="happy"> Happy</label>
+                        <label><input type="checkbox" value="sad"> Sad</label>
+                    </div>
+                    <button id="generateMixBtn" class="primary-btn">Generate Mix</button>
+                </div>
+
+                <div class="horizontal-scroll-section" style="display:none;" id="recentSection">
+                    <h2 class="section-title">Jump Back In</h2>
+                    <div class="horizontal-scroll" id="recentlyPlayedContainer">
+                        <!-- Recently played injected here -->
+                    </div>
+                </div>
+
+                <h2 class="section-title" id="trendingTitle">Trending Now</h2>
+                <div class="songs-grid" id="songsContainer">
+                    <!-- Songs will be injected here via JS -->
+                </div>
+
+                <h2 class="section-title" id="recommendedTitle">Recommended for You</h2>
+                <div class="songs-grid" id="recommendedContainer">
+                    <!-- Recommended songs injected here -->
+                </div>
+                
+                <h2 class="section-title" id="searchResultsTitle" style="display: none;">Search Results</h2>
+                <div class="songs-grid" id="searchResultsContainer" style="display: none;">
+                    <!-- Search results injected here -->
+                </div>
+            </div>
+
+            <!-- Explore View (Analytics) -->
+            <div id="explore-view" class="view-section">
+                <h2 class="section-title">Listening Analytics</h2>
+                <div class="analytics-grid">
+                    <div class="stat-card glass-panel">
+                        <h4>Total Songs Played</h4>
+                        <div class="value" id="statTotalPlays">0</div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <h4>Most Listened Artist</h4>
+                        <div class="value" id="statTopArtist">-</div>
+                    </div>
+                </div>
+                <div class="glass-panel chart-container">
+                    <canvas id="playsChart"></canvas>
+                </div>
+
+                <!-- Achievements Section -->
+                <h2 class="section-title" style="margin-top: 2rem;">Your Achievements</h2>
+                <div class="achievements-grid" id="achievementsContainer">
+                    <!-- Achievements injected here -->
+                </div>
+            </div>
+
+            <!-- Library View (Favorites & Time Capsule) -->
+            <div id="library-view" class="view-section">
+                <h2 class="section-title">My Favorites</h2>
+                <div class="songs-grid" id="favoritesContainer">
+                    <!-- Favorites injected here -->
+                </div>
+
+                <h2 class="section-title" style="margin-top: 40px;"><i class="fa-solid fa-hourglass-half"></i> Nostalgia Time Capsule</h2>
+                <div class="time-capsule-section glass-panel">
+                    <p>Lock your favorite songs away until a future date. They will be unplayable until then!</p>
+                    <div class="capsule-form">
+                        <input type="datetime-local" id="capsuleUnlockDate" class="capsule-input">
+                        <button id="createCapsuleBtn" class="primary-btn">Bury My Favorites</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Underground Map View -->
+            <div id="map-view" class="view-section">
+                <h2 class="section-title">The Underground</h2>
+                <p>Explore the galaxy of music. Click a node to play.</p>
+                <div class="glass-panel map-container">
+                    <canvas id="undergroundMapCanvas"></canvas>
+                </div>
+            </div>
+        </main>
+
+        <!-- Floating Player Widget -->
+        <div class="floating-player glass-panel" id="floatingPlayer">
+            <img src="https://via.placeholder.com/300" alt="Album Cover" class="player-cover" id="playerCover">
+            <div class="player-content">
+                <div class="player-info">
+                    <h3 id="playerTitle">Select a Song</h3>
+                    <p id="playerArtist">Artist</p>
+                </div>
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="time-info">
+                    <span id="currentTime">0:00</span>
+                    <span id="totalTime">0:30</span>
+                </div>
+                <div class="controls">
+                    <button class="control-btn" id="prevBtn"><i class="fa-solid fa-backward-step"></i></button>
+                    <button class="play-pause-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
+                    <button class="control-btn" id="nextBtn"><i class="fa-solid fa-forward-step"></i></button>
+                </div>
+                <div class="limit-warning" id="limitWarning">30-second preview limit reached.</div>
+            </div>
+            <audio id="audioElement" src="" crossorigin="anonymous"></audio>
+            <!-- Graffiti Canvas overlay -->
+            <div id="graffitiOverlay" class="graffiti-overlay"></div>
+            <div id="graffitiInputContainer" class="graffiti-input-container" style="display: none;">
+                <input type="text" id="graffitiTextInput" placeholder="Type and press Enter..." maxlength="50">
+            </div>
+        </div>
+    </div>
+
+    <!-- Party Room Modal -->
+    <div id="partyModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content glass-panel">
+            <button class="close-modal" id="closePartyModal"><i class="fa-solid fa-xmark"></i></button>
+            <h2>Party Room</h2>
+            <p>Sync playback with your friends!</p>
+            <div class="party-actions">
+                <button id="createRoomBtn" class="primary-btn">Create Room</button>
+                <div class="join-room">
+                    <input type="text" id="roomCodeInput" placeholder="Enter Room Code">
+                    <button id="joinRoomBtn" class="secondary-btn">Join</button>
+                </div>
+            </div>
+            <p id="roomStatus" class="room-status"></p>
+        </div>
+    </div>
+
+    <!-- Focus Timer Overlay -->
+    <div id="focusOverlay" class="focus-overlay" style="display: none;">
+        <div class="focus-timer-display">
+            <h2>Focus Mode</h2>
+            <div class="timer" id="focusTimerText">25:00</div>
+            <p>Playing Chill Mix...</p>
+            <button id="exitFocusBtn" class="secondary-btn">Exit Focus</button>
+        </div>
+    </div>
+
+    <!-- Sleepscape Overlay -->
+    <div id="sleepscapeOverlay" class="sleepscape-overlay" style="display: none;">
+        <div class="breathing-circle"></div>
+        <button id="exitSleepBtn" class="exit-sleep-btn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Achievement Toast -->
+    <div id="achievementToast" class="achievement-toast" style="display: none;">
+        <i class="fa-solid fa-trophy"></i>
+        <div class="toast-text">
+            <h4>Achievement Unlocked!</h4>
+            <p id="toastDesc">First Spin</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
